@@ -17,9 +17,10 @@
   body { background: #000; color: #fff; font-family: var(--sf); line-height: 1.4; letter-spacing: -.011em; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
   button, input { font: inherit; color: inherit; letter-spacing: inherit; }
   :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  [hidden] { display: none !important; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-  .stage { position: relative; isolation: isolate; width: 100%; max-width: 480px; height: 100dvh; margin: 0 auto; overflow: hidden; background: #000; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  .stage { position: relative; isolation: isolate; width: 100%; max-width: 480px; height: 100vh; height: 100dvh; margin: 0 auto; overflow: hidden; background: #000; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
   #gl { position: absolute; inset: 0; width: 100%; height: 100%; }
   #ui { position: absolute; inset: 0; }
   /* backdrop: small blurred copies of the artwork, scaled up huge (cheap to draw) and turning slowly */
@@ -57,23 +58,9 @@
   .btn:active { transform: scale(.96); }
   .btn.solid { background: #fff; color: #000; }
 
-  /* ---------- setup ---------- */
-  .setup { height: 100%; overflow-y: auto; padding: 56px 22px 40px; user-select: text; -webkit-user-select: text; }
-  .setup .lede { margin: 12px 0 26px; max-width: 30ch; font-size: 1.15rem; font-weight: 500; color: var(--t2); }
-  .steps { list-style: none; padding: 0; counter-reset: s; border-radius: 24px; overflow: hidden; }
-  .steps li { counter-increment: s; display: grid; grid-template-columns: 26px 1fr; gap: 4px 12px; padding: 16px; font-size: .98rem; }
-  .steps li + li { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); }
-  .steps li::before { content: counter(s); grid-row: span 3; width: 26px; height: 26px; border-radius: 50%; background: rgba(255, 255, 255, .16); display: grid; place-items: center; font-size: .82rem; font-weight: 600; }
-  .steps li > * { grid-column: 2; }
-  .steps a, .linkish { color: #b4d8ff; text-decoration: none; }
-  .steps small { color: var(--t2); }
-  .field { display: flex; gap: 8px; margin-top: 8px; align-items: stretch; }
-  .field input, .field code { flex: 1; min-width: 0; padding: 13px 14px; border: 0; border-radius: 12px; background: rgba(0, 0, 0, .34); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); color: #fff; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .82rem; letter-spacing: 0; overflow-wrap: anywhere; }
-  .field input { font-size: 1rem; } /* under 16px, iPhones zoom the page on focus */
-  .field input::placeholder { color: var(--t3); }
-  .field .btn { height: auto; padding: 0 16px; font-size: .92rem; background: rgba(255, 255, 255, .16); }
-  .setup form .btn { width: 100%; margin-top: 10px; }
-  .linkish { display: block; background: none; border: 0; padding: 0; cursor: pointer; margin-top: 22px; font-weight: 500; }
+  /* ---------- landing ---------- */
+  .demo { width: 100%; margin-top: 10px; }
+  .slide .msg { margin: 18px 0 0; }
   .msg { margin: 0 0 18px; padding: 13px 16px; border-radius: 16px; background: rgba(255, 69, 58, .2); box-shadow: inset 0 0 0 1px rgba(255, 105, 97, .45); font-size: .95rem; }
 
   /* ---------- story chrome ---------- */
@@ -85,6 +72,9 @@
   .noauto .bars .cur b { animation: none; }
   @keyframes fill { to { width: 100%; } }
   .held .bars .cur b { animation-play-state: paused; }
+  .nowp { position: absolute; z-index: 5; top: 26px; left: 14px; max-width: calc(100% - 80px); height: 38px; padding: 0 15px 0 13px; border-radius: 19px; display: flex; align-items: center; gap: 9px; font-size: .82rem; font-weight: 600; animation: in .5s var(--ease) both; }
+  .nowp .nt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nowp .na { font-weight: 500; color: var(--t2); }
   .mute { position: absolute; z-index: 5; top: 26px; right: 14px; width: 38px; height: 38px; border: 0; border-radius: 50%; cursor: pointer; display: none; place-items: center; }
   .hasclips .mute { display: grid; }
   .mute svg { width: 20px; height: 20px; }
@@ -138,6 +128,8 @@
   .list { list-style: none; padding: 6px; margin-top: 20px; border-radius: 26px; }
   .row { position: relative; display: grid; grid-template-columns: 22px 48px 1fr; align-items: center; column-gap: 12px; padding: 9px 12px 9px 8px; border-radius: 20px; animation: in .8s var(--ease) both; animation-delay: calc(var(--i) * 80ms + 250ms); transition: background .4s var(--ease); }
   .row + .row::before { content: ""; position: absolute; top: 0; left: 102px; right: 12px; height: 1px; background: rgba(255, 255, 255, .1); }
+  .row.on { background: rgba(255, 255, 255, .17); }
+  .row.on::before, .row.on + .row::before { background: transparent; }
   .row .n { text-align: center; font-size: .95rem; font-weight: 600; color: var(--t2); font-variant-numeric: tabular-nums; }
   .row img, .row .ph { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; background: rgba(255, 255, 255, .14); box-shadow: 0 0 0 1px rgba(255, 255, 255, .08); }
   .row .round { border-radius: 50%; }
@@ -147,17 +139,17 @@
   .row .t, .row .a { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
 
   /* title card: the year, cut out of your top cover */
-  .yr { padding: .04em 0; font-size: clamp(7rem, 38vw, 12rem); font-weight: 800; letter-spacing: -.07em; line-height: .86; color: transparent; -webkit-text-fill-color: transparent;
+  .yr { padding: .04em 0; font-size: clamp(7rem, 38vw, 12rem); font-weight: 800; letter-spacing: -.07em; line-height: .86; color: transparent; -webkit-text-fill-color: transparent; background: #fff;
     background: linear-gradient(180deg, #fff, color-mix(in srgb, var(--tint, #fff) 60%, #fff)) center / cover; -webkit-background-clip: text; background-clip: text;
     animation: yr 2.4s var(--ease) both, pan 10s ease-in-out infinite alternate; }
-  .yr.pic { background-size: 190%; }
+  .yr.pic { background-size: 100% 100%, 190%; }
   @keyframes yr { from { opacity: 0; transform: scale(1.7); filter: blur(26px); } }
   @keyframes pan { from { background-position: 25% 15%; } to { background-position: 75% 85%; } }
 
   /* big numbers */
   .stats { list-style: none; padding: 0; align-self: stretch; display: grid; gap: 12px; margin-top: 24px; }
   .stat { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 18px; padding: 14px 22px; border-radius: 26px; animation: in .9s var(--ease) both; animation-delay: calc(var(--i) * 120ms + 350ms); }
-  .num { min-width: 1.5ch; font-size: 3.7rem; font-weight: 700; letter-spacing: -.05em; line-height: 1.05; font-variant-numeric: tabular-nums; color: transparent; -webkit-text-fill-color: transparent;
+  .num { min-width: 1.5ch; font-size: 3.7rem; font-weight: 700; letter-spacing: -.05em; line-height: 1.05; font-variant-numeric: tabular-nums; color: transparent; -webkit-text-fill-color: transparent; background: #fff;
     background: linear-gradient(180deg, #fff 25%, color-mix(in srgb, var(--tint, #fff) 55%, #fff)); -webkit-background-clip: text; background-clip: text; }
   .lb { font-size: 1.08rem; font-weight: 600; line-height: 1.25; text-align: left; }
 
@@ -221,12 +213,17 @@
   .card li bdi { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
   .card .g { margin: 16px 22px 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: .92rem; color: var(--t2); }
   .card .g strong { color: #fff; font-weight: 600; }
-  .rowbtn { display: flex; gap: 10px; margin-top: 22px; }
+  .share { width: 100%; margin-top: 18px; }
+  .rowbtn { display: flex; gap: 10px; margin-top: 12px; }
   .rowbtn .btn { flex: 1; }
   .loading { height: 100%; display: grid; place-items: center; padding: 24px; text-align: center; }
   .loading .big { animation: pulse 2.4s 1.2s ease-in-out infinite; }
   @keyframes pulse { 50% { opacity: .5; } }
 
+  @supports not (height: 1dvh) { /* phones from before the dvh unit */
+    .tilt { width: min(74%, 40vh); }
+    .flow { --sz: min(54vw, 30vh, 240px); }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -242,6 +239,7 @@
 <script>
 "use strict";
 const REDIRECT = location.origin + location.pathname;
+const CLIENT_ID = "2a8de54d94274bdc9085594f1f1ebd84"; // public by design: this kind of login (PKCE) has no secret
 const RANGES = [["short_term", "4 weeks"], ["medium_term", "6 months"], ["long_term", "1 year"]];
 const LS = { get: k => { try { return localStorage.getItem("uw_" + k); } catch { return null; } },
              set: (k, v) => { try { v == null ? localStorage.removeItem("uw_" + k) : localStorage.setItem("uw_" + k, v); } catch {} } };
@@ -269,7 +267,7 @@ const PAL = {
   blue:   ["#0a84ff", "#5e5ce6", "#63e6e2"],
 };
 const GL = (() => {
-  const off = { set() {}, kick() {} };
+  const off = { set() {}, kick() {}, rest() {} };
   const cv = document.getElementById("gl"), gl = cv.getContext("webgl", { antialias: false, alpha: false, powerPreference: "low-power" });
   if (!gl) { cv.remove(); return off; }
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
@@ -314,12 +312,14 @@ const GL = (() => {
     gl.uniform2f(u.r, w, ht); gl.uniform1f(u.t, phase); gl.uniform1f(u.k, kick);
     cur.forEach((col, i) => gl.uniform3fv(u.c[i], col));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
-    if (!reduced) requestAnimationFrame(frame);
+    if (!reduced && !idle) requestAnimationFrame(frame); else running = false;
   }
+  let idle = false, running = !reduced;
   if (!reduced) requestAnimationFrame(frame);
   return {
     set(hexes) { from = cur; to = hexes.map(rgb); t0 = performance.now(); if (reduced) { from = to; frame(t0); } },
     kick() { if (!reduced) kick = 1; },
+    rest(v) { idle = v; if (!v && !running && !reduced) { running = true; requestAnimationFrame(frame); } }, // no point drawing light nobody can see
   };
 })();
 function paint(name) { stage.style.setProperty("--tint", PAL[name][0]); GL.set(PAL[name]); }
@@ -334,13 +334,13 @@ function kin(text, cls, tag = "div") {
 function fit(el) { for (const c of ["m", "s", "brk"]) { if (el.scrollWidth <= el.clientWidth + 1) break; el.classList.add(c); } }
 
 // ---------- Spotify login (authorization code + PKCE, no secret, nothing leaves the browser) ----------
-async function login(clientId) {
+async function login() {
   const verifier = b64url(crypto.getRandomValues(new Uint8Array(64)));
   const challenge = b64url(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier))));
   const state = b64url(crypto.getRandomValues(new Uint8Array(16)));
-  LS.set("client", clientId); LS.set("verifier", verifier); LS.set("state", state);
+  LS.set("verifier", verifier); LS.set("state", state);
   location.assign("https://accounts.spotify.com/authorize?" + new URLSearchParams({
-    client_id: clientId, response_type: "code", redirect_uri: REDIRECT, scope: "user-top-read",
+    client_id: CLIENT_ID, response_type: "code", redirect_uri: REDIRECT, scope: "user-top-read",
     code_challenge_method: "S256", code_challenge: challenge, state }));
 }
 
@@ -351,20 +351,37 @@ async function finishLogin(q) {
   const r = await fetch("https://accounts.spotify.com/api/token", { method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ grant_type: "authorization_code", code: q.get("code"), redirect_uri: REDIRECT,
-      client_id: LS.get("client"), code_verifier: LS.get("verifier") }) });
+      client_id: CLIENT_ID, code_verifier: LS.get("verifier") }) });
   const j = await r.json().catch(() => ({}));
   LS.set("verifier", null); LS.set("state", null);
   if (!r.ok) throw new Error("Spotify refused the login: " + (j.error_description || j.error || r.status) + ".");
-  // shortcut: no refresh token, a login lasts 1 hour; add refresh if sessions need to outlive that
-  LS.set("token", j.access_token); LS.set("expires", String(Date.now() + j.expires_in * 1000));
+  keep(j);
 }
+function keep(j) { LS.set("token", j.access_token); LS.set("expires", String(Date.now() + j.expires_in * 1000)); if (j.refresh_token) LS.set("refresh", j.refresh_token); }
 const token = () => (Number(LS.get("expires")) > Date.now() + 5000 ? LS.get("token") : null);
-function disconnect() { LS.set("token", null); LS.set("expires", null); showSetup(); }
+// A token lasts an hour; the refresh token quietly fetches the next one. Only one request at a time, because each refresh token works once.
+let renewing = null;
+function freshToken() {
+  if (token()) return Promise.resolve(token());
+  if (!LS.get("refresh")) return Promise.resolve(null);
+  return renewing = renewing || fetch("https://accounts.spotify.com/api/token", { method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: LS.get("refresh"), client_id: CLIENT_ID }) })
+    .then(async r => { const j = await r.json().catch(() => ({})); if (r.ok && j.access_token) { keep(j); return j.access_token; } if (r.status < 500) LS.set("refresh", null); return null; })
+    .catch(() => null).finally(() => { renewing = null; });
+}
+function disconnect() { for (const k of ["token", "expires", "refresh"]) LS.set(k, null); showSetup(); }
 
-async function api(path) {
-  const r = await fetch("https://api.spotify.com/v1" + path, { headers: { Authorization: "Bearer " + token() } });
-  if (r.status === 401) { LS.set("token", null); throw new Error("Your Spotify login expired. Connect again."); }
-  if (r.status === 403) throw new Error("Spotify blocked the request. The account that made the Client ID needs Premium, and any other account has to be added under User Management in the Spotify dashboard.");
+async function api(path, again) {
+  const tk = await freshToken();
+  if (!tk) throw new Error("Your Spotify login expired. Connect again.");
+  const r = await fetch("https://api.spotify.com/v1" + path, { headers: { Authorization: "Bearer " + tk } });
+  if (r.status === 401) { // the token was refused early: renew it and try once more before giving up
+    LS.set("token", null); LS.set("expires", null);
+    if (!again && LS.get("refresh")) return api(path, true);
+    throw new Error("Your Spotify login expired. Connect again.");
+  }
+  if (r.status === 403) throw new Error("Spotify blocked this account. The app is in Spotify's development mode, so it only works for people its owner has added. Ask whoever sent you the link to add your Spotify email.");
   if (r.status === 429) throw new Error("Spotify is rate-limiting this app. Try again in a minute.");
   if (!r.ok) { const e = new Error("Spotify returned an error (" + r.status + ")."); e.status = r.status; throw e; }
   return r.json();
@@ -391,7 +408,9 @@ function stats(tracks, thisYear) {
   return { n: tracks.length, distinct: by.size, lead, leadN, years, decades: [...dec].sort((a, b) => a[0] - b[0]) };
 }
 
-// ---------- song clips: 30-second previews looked up in Apple's public music search (Spotify no longer gives apps previews) ----------
+// ---------- song clips ----------
+// Spotify no longer gives apps previews, so 30-second clips come from two public catalogues:
+// Deezer (matched exactly by the recording's ISRC code when Spotify supplies one) and Apple's music search.
 const norm = s => (s || "").toLowerCase().normalize("NFKD").replace(/\(.*?\)|\[.*?\]| - .*$/g, "").replace(/[^\p{L}\p{N}]+/gu, "");
 // right artist first, then right title; never a clip by someone else
 function pickClip(results, track) {
@@ -401,52 +420,103 @@ function pickClip(results, track) {
   if (!t) return same[0] || null;
   return same.find(r => norm(r.trackName) === t) || same.find(r => { const rt = norm(r.trackName); return rt && (rt.includes(t) || t.includes(rt)); }) || null;
 }
+// Deezer only answers a web page in the form of a script (JSONP). That script runs inside a sandboxed frame
+// with no access to this page or its Spotify login, and only plain data comes back out.
+const Deezer = (() => {
+  const frame = document.createElement("iframe"), waiting = new Map();
+  let seq = 0, ready;
+  const isReady = new Promise(r => { ready = r; });
+  frame.setAttribute("sandbox", "allow-scripts"); frame.setAttribute("aria-hidden", "true"); frame.hidden = true; frame.title = "music lookup";
+  frame.srcdoc = `<!DOCTYPE html><script>
+    let n = 0;
+    addEventListener("message", e => {
+      if (e.source !== parent || !e.data || !/^https:\\/\\/api\\.deezer\\.com\\//.test(e.data.url)) return;
+      const id = e.data.id, cb = "dz" + n++, s = document.createElement("script");
+      const done = data => { if (!window[cb]) return; delete window[cb]; s.remove(); parent.postMessage({ id, data }, "*"); };
+      window[cb] = done; s.onerror = () => done(null); setTimeout(() => done(null), 8000);
+      s.src = e.data.url + (e.data.url.includes("?") ? "&" : "?") + "output=jsonp&callback=" + cb;
+      document.head.appendChild(s);
+    });
+    parent.postMessage({ ready: true }, "*");
+  <\/script>`;
+  addEventListener("message", e => {
+    if (e.source !== frame.contentWindow || !e.data) return;
+    if (e.data.ready) return ready();
+    const done = waiting.get(e.data.id);
+    if (done) { waiting.delete(e.data.id); done(e.data.data); }
+  });
+  document.body.append(frame);
+  return { // resolves with the answer, or null if Deezer can't be reached
+    get: url => new Promise(res => { const id = ++seq; waiting.set(id, res); setTimeout(() => { if (waiting.delete(id)) res(null); }, 10000);
+      isReady.then(() => frame.contentWindow.postMessage({ id, url }, "*")); }),
+  };
+})();
 const Sound = (() => {
   const player = document.getElementById("player");
   const SILENCE = "data:audio/wav;base64,UklGRhQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YfAAAACA" + "gICA".repeat(79) + "gIA=";
   const region = ((navigator.language || "").split("-")[1] || "us").toLowerCase();
   const stores = [...new Set([/^[a-z]{2}$/.test(region) ? region : "us", "us"])];
-  const key = t => t.name + "|" + t.artists[0].name, found = new Map(), urls = new Map();
-  let unlocked = false, want = null;
+  const DZ = /^https:\/\/[a-z0-9.-]+\.dzcdn\.net\//i, AP = /^https:\/\/[a-z0-9.-]+\.apple\.com\//i;
+  const key = t => t.name + "|" + t.artists[0].name, found = new Map(), clips = new Map(); // key -> { url, title, artist }
+  let unlocked = false, want = null, current = null;
+  const dzRow = r => ({ artistName: r && r.artist && r.artist.name, trackName: r && (r.title_short || r.title), previewUrl: r && r.preview });
+  // only accept a clip address on the catalogue's own audio servers
+  const clip = (r, host) => (r && typeof r.previewUrl === "string" && host.test(r.previewUrl) ? { url: r.previewUrl, title: String(r.trackName || ""), artist: String(r.artistName || "") } : null);
   async function find(track) {
+    const artist = track.artists[0].name, isrc = (track.external_ids && track.external_ids.isrc) || "";
+    if (track.preview) return clip({ previewUrl: track.preview, trackName: track.name, artistName: artist }, DZ); // demo songs arrive with their clip
+    if (/^[A-Za-z0-9]{12}$/.test(isrc)) { // the same recording, whatever it is called there
+      const exact = clip(dzRow(await Deezer.get("https://api.deezer.com/track/isrc:" + isrc)), DZ);
+      if (exact) return exact;
+    }
+    const term = ((track.name.replace(/\(.*?\)|\[.*?\]| - .*$/g, "").trim() || track.name) + " " + artist).trim();
+    const dz = await Deezer.get("https://api.deezer.com/search?limit=15&q=" + encodeURIComponent(term));
+    const hit = clip(pickClip(((dz && dz.data) || []).map(dzRow), track), DZ);
+    if (hit) return hit;
     for (const cc of stores) {
-      const r = await fetch("https://itunes.apple.com/search?" + new URLSearchParams({ media: "music", entity: "song", limit: "10", country: cc, term: (track.name + " " + track.artists[0].name).trim() }));
-      if (!r.ok) continue;
-      const hit = pickClip((await r.json()).results, track);
-      if (hit && /^https:\/\//.test(hit.previewUrl)) return hit.previewUrl;
+      const r = await fetch("https://itunes.apple.com/search?" + new URLSearchParams({ entity: "song", limit: "10", country: cc, term })).catch(() => null);
+      if (!r || !r.ok) continue;
+      const ap = clip(pickClip((await r.json().catch(() => ({}))).results, track), AP);
+      if (ap) return ap;
     }
     return null;
   }
   function lookup(track) {
     const k = key(track);
-    if (!found.has(k)) found.set(k, find(track).catch(() => null).then(u => { if (u) { urls.set(k, u); stage.classList.add("hasclips"); } return u; }));
+    if (!found.has(k)) found.set(k, find(track).catch(() => null).then(c => { if (c) { clips.set(k, c); stage.classList.add("hasclips"); } return c; }));
     return found.get(k);
   }
+  const quiet = () => { if (player.dataset.k) { delete player.dataset.k; player.pause(); } };
   async function play(track) {
     want = track || null;
-    if (!track || !unlocked) return;
-    const k = key(track), url = urls.get(k) ?? await lookup(track); // no await when the clip is ready, so play() stays inside the tap
-    if (!url || want !== track || player.dataset.k === k) return;
-    player.dataset.k = k; player.loop = true; player.src = url;
-    player.play().catch(() => { delete player.dataset.k; });
+    if (!track) return;
+    const k = key(track);
+    if (player.dataset.k && player.dataset.k !== k) quiet(); // never leave a different song playing under the one on screen
+    if (!unlocked) return;
+    const c = clips.get(k) ?? await lookup(track); // no await when the clip is ready, so play() stays inside the tap
+    if (!c || want !== track || player.dataset.k === k) return;
+    player.dataset.k = k; current = c; player.loop = true; player.src = c.url;
+    player.play().catch(() => { if (player.dataset.k === k) delete player.dataset.k; });
   }
-  player.muted = LS.get("muted") === "1";
-  player.addEventListener("playing", () => stage.classList.toggle("playing", !!player.dataset.k));
-  for (const ev of ["pause", "error", "emptied"]) player.addEventListener(ev, () => stage.classList.remove("playing"));
+  const tell = on => { stage.classList.toggle("playing", on); stage.dispatchEvent(new Event("clip")); };
+  player.addEventListener("playing", () => tell(!!player.dataset.k));
+  for (const ev of ["pause", "error", "emptied"]) player.addEventListener(ev, () => tell(false));
   document.addEventListener("visibilitychange", () => { if (!player.dataset.k) return; document.hidden ? player.pause() : player.play().catch(() => {}); });
   return {
     lookup, play,
     // phones only let audio start inside a tap: start the wanted clip right now, or a blip of silence to keep the player allowed
     unlock() {
-      if (unlocked) return; unlocked = true;
-      if (want && urls.has(key(want))) return void play(want);
+      if (unlocked) { if (want && !player.dataset.k) play(want); return; } // a clip that was refused earlier gets another go on every tap
+      unlocked = true;
+      if (want && clips.has(key(want))) return void play(want);
       player.loop = false; player.src = SILENCE; player.play().catch(() => {});
       if (want) play(want);
     },
     stop() { want = null; delete player.dataset.k; player.pause(); player.removeAttribute("src"); stage.classList.remove("playing", "hasclips"); },
+    now: () => (player.dataset.k && !player.paused ? current : null), // what is audibly playing, for the label
     get muted() { return player.muted; },
     progress: () => (player.dataset.k && player.duration ? player.currentTime / player.duration : 0),
-    toggle() { player.muted = !player.muted; LS.set("muted", player.muted ? "1" : null); return player.muted; },
+    toggle() { player.muted = !player.muted; return player.muted; },
   };
 })();
 
@@ -469,11 +539,12 @@ const Tilt = (() => {
   if (!reduced && matchMedia("(hover: hover)").matches) addEventListener("pointermove", e => { const r = stage.getBoundingClientRect(); aim((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1); });
   return {
     // iPhones only hand over the motion sensor when asked inside a tap
+    // Returns a promise only when the phone has to ask the person first (capped, in case it never answers); otherwise null.
     start() {
-      if (on || reduced || typeof DeviceOrientationEvent === "undefined") return; on = true;
+      if (on || reduced || typeof DeviceOrientationEvent === "undefined") return null; on = true;
       const listen = () => addEventListener("deviceorientation", orient);
-      if (typeof DeviceOrientationEvent.requestPermission === "function") DeviceOrientationEvent.requestPermission().then(r => { if (r === "granted") listen(); }).catch(() => {});
-      else listen();
+      if (typeof DeviceOrientationEvent.requestPermission !== "function") return listen(), null;
+      return Promise.race([DeviceOrientationEvent.requestPermission().then(r => { if (r === "granted") listen(); }).catch(() => {}), new Promise(r => setTimeout(r, 20000))]);
     },
   };
 })();
@@ -483,27 +554,97 @@ function countUp(el, to, ms) {
   (function step(now) { const m = Math.min(1, (now - t0) / ms); el.textContent = Math.round(to * (1 - Math.pow(1 - m, 3))); if (m < 1 && el.isConnected) requestAnimationFrame(step); })(t0);
 }
 
-// ---------- demo data (invented artists, so no clips) ----------
+// ---------- share image: the summary drawn as one tall picture for the phone's share sheet ----------
+const loadCors = url => new Promise(res => { if (!url) return res(null); const im = new Image(); im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
+async function shareImage({ title, artists, songs, genre, hero, wash }) {
+  const W = 1080, H = 1920, M = 84, cv = Object.assign(document.createElement("canvas"), { width: W, height: H }), c = cv.getContext("2d");
+  const [face, ...rest] = await Promise.all([hero, ...wash].map(loadCors));
+  const font = (w, px) => { c.font = `${w} ${px}px -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, sans-serif`; };
+  const cut = (text, max) => { if (c.measureText(text).width <= max) return text; while (text.length > 1 && c.measureText(text + "…").width > max) text = text.slice(0, -1); return text.trimEnd() + "…"; };
+  const rr = (x, y, w, ht, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + ht, r); c.arcTo(x + w, y + ht, x, y + ht, r); c.arcTo(x, y + ht, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+  // backdrop: the covers shrunk to a few pixels and stretched back up twice, which melts them into soft colour
+  c.fillStyle = "#16161c"; c.fillRect(0, 0, W, H);
+  const pics = [face, ...rest].filter(Boolean);
+  if (pics.length) {
+    const tiny = Object.assign(document.createElement("canvas"), { width: 9, height: 16 }), t = tiny.getContext("2d");
+    const mid = Object.assign(document.createElement("canvas"), { width: 72, height: 128 }), m = mid.getContext("2d");
+    t.drawImage(pics[0], 0, 0, 9, 16);
+    if (pics[1]) { t.globalAlpha = .7; t.drawImage(pics[1], 3, 6, 6, 10); }
+    if (pics[2]) { t.globalAlpha = .6; t.drawImage(pics[2], 0, 0, 5, 7); }
+    m.imageSmoothingQuality = c.imageSmoothingQuality = "high";
+    m.drawImage(tiny, 0, 0, 72, 128); c.drawImage(mid, 0, 0, W, H);
+  }
+  const shade = c.createLinearGradient(0, 0, 0, H); shade.addColorStop(0, "rgba(0,0,0,.3)"); shade.addColorStop(1, "rgba(0,0,0,.76)");
+  c.fillStyle = shade; c.fillRect(0, 0, W, H);
+  // the number one artist
+  const S = 560, x0 = (W - S) / 2, y0 = 170;
+  c.save(); c.shadowColor = "rgba(0,0,0,.5)"; c.shadowBlur = 80; c.shadowOffsetY = 40; rr(x0, y0, S, S, 64); c.fillStyle = "#2a2a32"; c.fill(); c.restore();
+  if (face) { const k = Math.max(S / face.width, S / face.height), w = face.width * k, ht = face.height * k;
+    c.save(); rr(x0, y0, S, S, 64); c.clip(); c.drawImage(face, x0 + (S - w) / 2, y0 + (S - ht) / 2, w, ht); c.restore(); }
+  c.textBaseline = "alphabetic"; c.textAlign = "left"; c.fillStyle = "#fff";
+  let px = 100; do { px -= 4; font(700, px); } while (px > 56 && c.measureText(title).width > W - M * 2);
+  c.fillText(cut(title, W - M * 2), M, 880);
+  // the two lists on a glass panel
+  rr(60, 950, 960, genre ? 690 : 570, 56); c.fillStyle = "rgba(255,255,255,.12)"; c.fill(); c.strokeStyle = "rgba(255,255,255,.18)"; c.lineWidth = 2; c.stroke();
+  [["Top artists", artists, 116], ["Top songs", songs, 560]].forEach(([head, names, x]) => {
+    font(600, 36); c.fillStyle = "rgba(255,255,255,.62)"; c.fillText(head, x, 1040);
+    names.slice(0, 5).forEach((name, k) => { const y = 1124 + k * 82; font(600, 44);
+      c.fillStyle = "rgba(255,255,255,.45)"; c.fillText(String(k + 1), x, y);
+      c.fillStyle = "#fff"; c.fillText(cut(name, 348), x + 56, y); });
+  });
+  if (genre) { c.fillStyle = "rgba(255,255,255,.16)"; c.fillRect(116, 1500, 848, 2);
+    font(500, 40); c.fillStyle = "rgba(255,255,255,.62)"; c.fillText("Top genre", 116, 1576); const w = c.measureText("Top genre").width + 18;
+    font(600, 40); c.fillStyle = "#fff"; c.fillText(cut(genre, 848 - w), 116 + w, 1576); }
+  font(700, 40); c.fillStyle = "rgba(255,255,255,.55)"; c.fillText("Unwrapped", M, 1806);
+  try { return await new Promise(res => cv.toBlob(res, "image/png")); } catch { return null; } // a cover that can't be read back makes the canvas unexportable
+}
+
+// a tilted wall of covers drifting past (needs a handful of pictures to look like anything)
+function wallOf(arts) {
+  return arts.length < 4 ? null : h("div", { className: "wall", ariaHidden: "true" }, [0, 1, 2, 3].map(r => {
+    const one = Array.from({ length: 7 }, (_, j) => arts[(r * 3 + j) % arts.length]);
+    const el = h("div", { className: "wr" }, [...one, ...one].map(u => h("img", { src: u, alt: "" })));
+    el.style.setProperty("--s", 48 + r * 9 + "s"); return el; }));
+}
+const coverUrls = tracks => [...new Map(tracks.map(t => t.album && t.album.images).filter(l => l && l[0]).map(l => [l[0].url, (l[1] || l[0]).url])).values()].slice(0, 28);
+const preload = urls => Promise.race([Promise.all([...new Set(urls.filter(Boolean))].map(u => { const im = new Image(); im.src = u; return im.decode().catch(() => {}); })), new Promise(r => setTimeout(r, 6000))]);
+
+// ---------- demo: this week's chart from Deezer, so the demo has real covers and real clips ----------
+let chart = null;
+const demoLive = () => chart || (chart = fetchChart());
+async function fetchChart() {
+  const [t, a] = await Promise.all([Deezer.get("https://api.deezer.com/chart/0/tracks?limit=14"), Deezer.get("https://api.deezer.com/chart/0/artists?limit=6")]);
+  const pics = (o, p) => ["big", "medium", "small"].map(z => o && o[p + "_" + z]).filter(u => typeof u === "string" && /^https:\/\/[a-z0-9.-]+\.dzcdn\.net\//i.test(u)).map(url => ({ url }));
+  const tracks = ((t && t.data) || []).filter(x => x && x.title && x.artist && x.artist.name)
+    .map(x => ({ name: String(x.title_short || x.title), artists: [{ name: String(x.artist.name) }], album: { images: pics(x.album, "cover") }, preview: x.preview }));
+  const artists = ((a && a.data) || []).filter(x => x && x.name).map(x => ({ name: String(x.name), genres: [], images: pics(x, "picture") }));
+  if (tracks.length < 5 || !artists.length) return demoData(); // Deezer out of reach: fall back to the silent made-up demo
+  return { me: { display_name: "Demo" }, artists, tracks, recent: tracks.slice(7, 8) };
+}
+
+// ---------- fallback demo data (invented artists, so no clips) ----------
 function demoData() {
-  const pic = hue => [{ url: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${hue},85%,62%)"/><stop offset="1" stop-color="hsl(${hue + 70},80%,38%)"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/><circle cx="68" cy="34" r="30" fill="#fff" opacity=".22"/><circle cx="30" cy="76" r="38" fill="#000" opacity=".18"/></svg>`) }];
+  const pic = hue => [{ url: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${hue},85%,62%)"/><stop offset="1" stop-color="hsl(${hue + 70},80%,38%)"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/><circle cx="68" cy="34" r="30" fill="#fff" opacity=".22"/><circle cx="30" cy="76" r="38" fill="#000" opacity=".18"/></svg>`) }];
   const A = [["Paper Lanterns", ["indie pop", "dream pop"]], ["נמל תעופה", ["israeli indie", "indie pop"]], ["Glass Harbor", ["synthwave"]], ["Odd Tuesday", ["bedroom pop", "indie pop"]], ["The Night Buses", ["post-punk"]], ["Marlo Vance", ["neo soul"]]];
   const artists = A.map(([name, genres], i) => ({ name, genres, images: pic(330 + i * 55) }));
   const T = ["Half Moon Motel", "לילה לבן", "Static Summer", "Kitchen Floor", "Last Train to Nowhere in Particular", "Velvet", "Low Tide", "Polaroid Sky", "Corner Shop", "Sundays", "Paper Planes Home", "Afterglow"];
   const by = [0, 1, 2, 0, 4, 5, 0, 3, 0, 1, 2, 0], yrs = [2019, 2021, 2016, 2026, 1998, 2014, 2023, 2011, 2026, 2007, 2018, 1987];
   const tracks = T.map((name, i) => ({ name, artists: [{ name: A[by[i]][0] }], album: { images: pic(170 + i * 47), release_date: yrs[i] + "-03-01" } }));
-  return { me: { display_name: "Demo listener" }, artists, tracks };
+  return { me: { display_name: "Demo listener" }, artists, tracks, recent: [tracks[7]], silent: true };
 }
 
 // ---------- backdrop: the artwork itself, blurred huge and turning slowly, so every screen takes its colour from your music ----------
 const bd = document.getElementById("bd");
-let bdKey = "";
+let bdKey = "", bdRest = 0;
 function setBackdrop(urls) {
   urls = (urls || []).filter(Boolean).slice(0, 3);
   const key = urls.join("|");
   if (key === bdKey) return;
   bdKey = key;
   for (const old of [...bd.children]) { old.classList.remove("on"); setTimeout(() => old.remove(), 1500); }
-  if (!urls.length) return; // nothing to show: the drifting light underneath takes over
+  clearTimeout(bdRest);
+  if (!urls.length) return void GL.rest(false); // nothing to show: the drifting light underneath takes over
+  bdRest = setTimeout(() => GL.rest(true), 1700);
   while (urls.length < 3) urls.push(urls[urls.length - 1]);
   const layer = h("div", { className: "bdl" }, urls.map((u, k) => h("img", { src: u, alt: "", className: "b" + k })));
   bd.append(layer);
@@ -516,43 +657,35 @@ let closeStories = null;
 function showSetup(message) {
   if (closeStories) { closeStories(); closeStories = null; }
   Sound.stop(); paint("indigo"); setBackdrop([]); ui.className = "";
-  const input = h("input", { id: "cid", placeholder: "Client ID", autocomplete: "off", autocapitalize: "off", spellcheck: false, value: LS.get("client") || "" });
-  input.setAttribute("aria-label", "Spotify Client ID");
-  const copy = h("button", { className: "btn", type: "button", textContent: "Copy" });
-  copy.onclick = () => navigator.clipboard.writeText(REDIRECT).then(() => { copy.textContent = "Copied"; }, () => { copy.textContent = "Select it"; });
-  const form = h("form", null, h("div", { className: "field" }, input), h("button", { className: "btn solid", textContent: "Connect Spotify" }));
-  form.onsubmit = e => {
-    e.preventDefault();
-    const id = input.value.trim();
-    if (!/^[0-9a-f]{32}$/i.test(id)) return showSetup("That doesn't look like a Client ID. It's 32 letters and numbers, on your app's page in the Spotify dashboard.");
-    login(id);
-  };
-  const link = (href, text) => h("a", { href, target: "_blank", rel: "noopener", textContent: text });
-  ui.replaceChildren(h("div", { className: "setup" },
-    kin("Unwrapped", "big", "h1"),
-    h("p", { className: "lede in" }, "Your top artists, songs and genres of the year. No waiting for December."),
-    message ? h("p", { className: "msg", role: "alert" }, message) : null,
-    h("ol", { className: "steps glass in" },
-      h("li", null, h("span", null, "Create an app in the ", link("https://developer.spotify.com/dashboard", "Spotify developer dashboard"), ". Any name works. Tick “Web API”."),
-        h("small", null, "Spotify only allows this on Premium accounts.")),
-      h("li", null, h("span", null, "Paste this as the app's Redirect URI and save."),
-        h("div", { className: "field" }, h("code", null, REDIRECT), copy)),
-      h("li", null, h("span", null, "Paste the app's Client ID here."), form)),
-    h("button", { className: "linkish", type: "button", textContent: "See a demo with made-up music", onclick: () => showStories(demoData, true) }),
-    h("p", { className: "fine" }, "Your Client ID and login stay in this browser. This page has no server. To play clips, the names of your top songs are looked up in Apple's music search.")));
-  fit(ui.querySelector(".big"));
+  const page = h("section", { className: "slide cover" },
+    kicker0("Unwrapped"), kin("Your year in music. Early.", "big", "h1"),
+    h("p", { className: "sub in" }, "Your top artists, songs and genres, with the music playing. No waiting for December."),
+    message ? h("p", { className: "msg in", role: "alert" }, message) : null,
+    h("button", { className: "btn solid play in", type: "button", onclick: login }, "Connect Spotify"),
+    h("button", { className: "btn glass demo in", type: "button", onclick: () => showStories(demoLive, true) }, "See a demo with this week's chart"),
+    h("p", { className: "fine in" }, "Your login stays in this browser; this page has no server. To play clips, your top songs are looked up on Deezer and in Apple's music search."));
+  ui.replaceChildren(page);
+  fit(page.querySelector(".big"));
+  // dress the page in this week's chart covers, if Deezer answers
+  demoLive().then(async d => { const arts = d.silent ? [] : coverUrls(d.tracks); if (arts.length < 4) return;
+    await preload(arts); if (!page.isConnected) return;
+    page.prepend(wallOf(arts)); setBackdrop(d.tracks.slice(0, 3).map(t => smallest(t.album.images))); });
 }
+const kicker0 = text => h("p", { className: "kicker in" }, text);
 
 async function showStories(load, demo) {
-  let range = "long_term", i = 0, slides = [], leave = null;
+  let range = "long_term", i = 0, slides = [], leave = null, waiting = false, looking = [], autoAt = 0;
+  const pre = []; // every picture the story will show, fetched before it starts so nothing pops in late
   paint("indigo"); ui.className = "noauto";
   ui.replaceChildren(h("div", { className: "loading" }, kin("Reading your year", "big s")));
 
   const build = d => {
-    const { me, artists, tracks } = d, genres = topGenres(artists), top5 = tracks.slice(0, 5);
+    const ok = t => t && t.name && t.artists && t.artists[0] && t.artists[0].name; // Spotify can return nameless local files
+    const me = d.me || {}, artists = (d.artists || []).filter(a => a && a.name), tracks = (d.tracks || []).filter(ok), recent = (d.recent || []).filter(ok);
+    const genres = topGenres(artists), top5 = tracks.slice(0, 5);
     const label = RANGES.find(r => r[0] === range)[1], year = new Date().getFullYear();
     const first = (me.display_name || "").split(/\s+/)[0];
-    const who = t => t.artists.map(a => a.name).join(", ");
+    const who = t => t.artists.map(a => a.name).filter(Boolean).join(", "), same = (a, b) => a.name === b.name && a.artists[0].name === b.artists[0].name;
     const cover = t => t.album && t.album.images;
     const bdA = k => artists[k] && smallest(artists[k].images), bdT = k => tracks[k] && smallest(cover(tracks[k]));
     const artwork = (list, round) => { const u = list && list[0] && list[0].url;
@@ -565,15 +698,18 @@ async function showStories(load, demo) {
         im ? h("img", { src: im.url, alt: "", className: round ? "round" : "" }) : h("span", { className: "ph" + (round ? " round" : "") }),
         h("div", { className: "tx" }, h("div", { className: "t", dir: "auto" }, title), sub ? h("div", { className: "a", dir: "auto" }, sub) : null));
       li.style.setProperty("--i", k); return li; };
-    // opening screen: every album cover in your top songs, as a tilted wall drifting past
-    const arts = [...new Map(tracks.map(cover).filter(l => l && l[0]).map(l => [l[0].url, (l[1] || l[0]).url])).values()].slice(0, 28);
-    const wall = () => (arts.length < 4 ? null : h("div", { className: "wall", ariaHidden: "true" }, [0, 1, 2, 3].map(r => {
-      const one = Array.from({ length: 7 }, (_, j) => arts[(r * 3 + j) % arts.length]);
-      const el = h("div", { className: "wr" }, [...one, ...one].map(u => h("img", { src: u, alt: "" })));
-      el.style.setProperty("--s", 48 + r * 9 + "s"); return el; })));
+    const arts = coverUrls(tracks), wall = () => wallOf(arts); // opening screen: the covers of your top songs
     // the clip behind the number one artist: their best-ranked song in your list, else anything by them
-    const artistTrack = artists[0] && (tracks.find(t => t.artists.some(a => a.name === artists[0].name)) || { name: "", artists: [{ name: artists[0].name }] });
-    if (!demo) [artistTrack, ...top5].filter(Boolean).forEach(Sound.lookup);
+    const songBy = a => tracks.find(t => t.artists.some(x => x.name === a.name)) || { name: "", artists: [{ name: a.name }] };
+    const artistSongs = artists.slice(0, 5).map(songBy), artistTrack = artistSongs[0];
+    const lately = recent[0] && tracks[0] && !same(recent[0], tracks[0]) ? recent[0] : null; // what you're playing now, if it isn't already the song of the year
+    looking = d.silent ? [] : [...artistSongs, ...top5, lately].filter(Boolean).map(t => Sound.lookup(t));
+    const urls = list => (list || []).map(x => x && x.url);
+    pre.length = 0; pre.push(...arts, ...artists.slice(0, 5).flatMap(a => urls(a.images)), ...tracks.slice(0, 8).flatMap(t => urls(cover(t))), ...urls(lately && cover(lately)));
+    let shot = null; // the share picture, drawn once per story
+    const title = (first ? first + "’s " : "My ") + (range === "long_term" ? year + " so far" : "last " + label);
+    const getShot = () => shot || (shot = shareImage({ title, artists: artists.slice(0, 5).map(a => a.name), songs: top5.map(t => t.name), genre: genres[0] && genres[0].name,
+      hero: artists[0] && artists[0].images && artists[0].images[0] && artists[0].images[0].url, wash: [bdT(0), bdA(1)] }).catch(() => null));
 
     const out = [];
     out.push({ pal: "indigo", cls: "cover", bd: [bdT(0), bdA(0), bdT(1)], body: () => [
@@ -593,13 +729,19 @@ async function showStories(load, demo) {
     out.push({ pal: "indigo", cls: "hero", dur: 4.5, clip: artistTrack || tracks[0], bd: [bdT(0), bdA(0), bdT(1)], body: () => {
       const im = (cover(tracks[0] || {}) || (artists[0] && artists[0].images) || [])[0];
       const yr = h("div", { className: "yr" }, range === "long_term" ? String(year) : label.split(" ")[0]);
-      if (im) { yr.classList.add("pic"); yr.style.backgroundImage = `url(${JSON.stringify(im.url)})`; }
+      // the cover shows through the digits, under a veil of white so they stay readable on a dark cover
+      if (im) { yr.classList.add("pic"); yr.style.backgroundImage = `linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.3)), url(${JSON.stringify(im.url)})`; }
       return [yr, late(kin(range === "long_term" ? "So far." : label.split(" ")[1] + ", in music.", "big m", "h1"), 700), late(h("p", { className: "sub in" }, "Here's what it sounded like."), 1300)]; } });
     if (artists[0]) out.push({ pal: "rose", cls: "hero", dur: 10, clip: artistTrack, bd: [bdA(0)], body: () => [
       artwork(artists[0].images, true), kicker("Your number one artist", 450), late(kin(artists[0].name, "big"), 550), now()] });
-    if (artists.length > 1) out.push({ pal: "amber", dur: 9, bd: [bdA(0), bdA(1), bdA(2)], body: () => [
+    if (artists.length > 1) out.push({ pal: "amber", dur: artistSongs.length * 3.6, clip: artistTrack, bd: [bdA(0), bdA(1), bdA(2)], body: () => [
       kicker("The five you kept coming back to"), kin("Your top artists", "big m", "h1"),
-      h("ol", { className: "list glass" }, artists.slice(0, 5).map((a, k) => row(k, a.images, a.name, null, true)))] });
+      h("ol", { className: "list glass" }, artists.slice(0, 5).map((a, k) => row(k, a.images, a.name, null, true)))],
+      // walk down the list: each artist's row lights up while one of their songs plays
+      enter: root => { const rows = [...root.querySelectorAll(".row")]; let k = -1;
+        const pick = n => { k = n; rows.forEach((r, j) => r.classList.toggle("on", j === k)); Sound.play(artistSongs[k]); };
+        pick(0); const iv = setInterval(() => { if (!stage.classList.contains("held")) pick((k + 1) % rows.length); }, 3600);
+        return () => clearInterval(iv); } });
     if (genres.length) out.push({ pal: "violet", cls: "hero", dur: 9, bd: [bdA(1), bdA(2), bdA(0)], body: () => [
       kicker("What it all sounded like"), kin(genres[0].name, "big"),
       // bar length = how much of your top-artist list carries the genre, relative to the first
@@ -641,18 +783,29 @@ async function showStories(load, demo) {
           li.style.setProperty("--i", k); li.style.setProperty("--h", Math.round(c / max * 82) + "%"); return li; })),
         h("p", { className: "fine in" }, `By the release year of each album, across your top ${st.years.length} songs.`)] });
     }
-    out.push({ pal: "rose", clip: tracks[0] || undefined, bd: [bdA(0), bdT(0), bdA(1)], body: () => { const face = artists[0] && artists[0].images && artists[0].images[0];
-      const title = h("h2", null, (first ? first + "’s " : "My ") + (range === "long_term" ? year + " so far" : "last " + label)); return [
+    if (lately) out.push({ pal: "violet", cls: "hero", dur: 11, clip: lately, bd: [smallest(cover(lately))], body: () => [
+      artwork(cover(lately)), kicker("Lately, though", 450), late(kin(lately.name, "big"), 550), late(h("p", { className: "sub in", dir: "auto" }, who(lately)), 800),
+      late(h("p", { className: "fine in" }, "Your most played song of the last 4 weeks."), 1000), now()] });
+    out.push({ pal: "rose", clip: tracks[0] || undefined, bd: [bdA(0), bdT(0), bdA(1)], body: () => { const face = artists[0] && artists[0].images && artists[0].images[0]; return [
       h("div", { className: "card glass in" },
-        h("div", { className: "banner" + (face ? "" : " none") }, face ? h("img", { src: face.url, alt: "" }) : null, title),
+        h("div", { className: "banner" + (face ? "" : " none") }, face ? h("img", { src: face.url, alt: "" }) : null, h("h2", null, title)),
         h("div", { className: "cols" },
           h("div", null, h("h3", null, "Top artists"), h("ol", null, artists.slice(0, 5).map(a => h("li", null, h("bdi", null, a.name))))),
           h("div", null, h("h3", null, "Top songs"), h("ol", null, top5.map(t => h("li", null, h("bdi", null, t.name)))))),
         genres[0] ? h("p", { className: "g" }, "Top genre ", h("strong", null, genres[0].name)) : null),
+      late(h("button", { className: "btn solid share act in", type: "button", hidden: true }), 250),
       late(h("div", { className: "rowbtn act in" },
         h("button", { className: "btn glass", type: "button", textContent: "Start over", onclick: e => go(0, e) }),
-        h("button", { className: "btn glass", type: "button", textContent: demo ? "Back to setup" : "Disconnect", onclick: () => (demo ? showSetup() : disconnect()) })), 300),
-      late(h("p", { className: "fine in" }, "Take a screenshot to share. Spotify doesn't give apps minutes listened or play counts, so those only arrive with the real Wrapped. Clips are Apple Music previews."), 400)]; } });
+        h("button", { className: "btn glass", type: "button", textContent: demo ? "Back to start" : "Disconnect", onclick: () => (demo ? showSetup() : disconnect()) })), 300),
+      late(h("p", { className: "fine in" }, "Spotify doesn't give apps minutes listened or play counts, so those only arrive with the real Wrapped. Clips are previews from Deezer and Apple Music."), 400)]; },
+      // the share button appears once the picture is drawn, so the tap can hand it straight to the share sheet
+      enter: root => { const btn = root.querySelector(".share"); let gone = false;
+        getShot().then(blob => { if (!blob || gone) return;
+          const file = new File([blob], "unwrapped.png", { type: "image/png" }), native = !!(navigator.canShare && navigator.canShare({ files: [file] }));
+          btn.textContent = native ? "Share" : "Save image"; btn.hidden = false;
+          btn.onclick = () => { if (native) return void navigator.share({ files: [file] }).catch(() => {});
+            const a = h("a", { href: URL.createObjectURL(file), download: file.name }); a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 10000); }; });
+        return () => { gone = true; }; } });
     return out;
   };
 
@@ -661,7 +814,9 @@ async function showStories(load, demo) {
     b.onpointerdown = e => { held = false; t = setTimeout(() => { held = true; stage.classList.add("held"); }, 220);
       if (!reduced) { const r = stage.getBoundingClientRect(), dot = h("i", { className: "tap" }); dot.style.left = e.clientX - r.left + "px"; dot.style.top = e.clientY - r.top + "px"; stage.append(dot); setTimeout(() => dot.remove(), 650); } };
     b.onpointerup = b.onpointercancel = b.onpointerleave = () => { clearTimeout(t); stage.classList.remove("held"); };
-    b.onclick = e => { if (held) return void (held = false); go(i + step, e); }; // a long press only pauses
+    b.onclick = e => { if (held) return void (held = false); // a long press only pauses
+      if (step > 0 && performance.now() - autoAt < 350) return; // the story moved on by itself just as you tapped: don't skip a screen
+      go(i + step, e); };
     b.oncontextmenu = e => e.preventDefault();
     return b;
   };
@@ -672,13 +827,22 @@ async function showStories(load, demo) {
     b.onclick = () => b.setAttribute("aria-pressed", String(Sound.toggle()));
     return b;
   };
+  // a small label that always names the clip you're hearing
+  const nowPill = () => h("div", { className: "nowp glass", hidden: true }, icon("eq", EQ), h("span", { className: "nt", dir: "auto" }));
+  const drawNow = () => { const el = ui.querySelector(".nowp"), c = Sound.now(); if (!el) return;
+    el.hidden = !c; if (c) el.lastChild.replaceChildren(h("bdi", null, c.title), c.artist ? h("span", { className: "na" }, " — ", h("bdi", null, c.artist)) : ""); };
   function go(n, e) {
     n = Math.max(0, Math.min(slides.length - 1, n));
-    if (!slides.length || (n === i && e)) return;
-    if (leave) { leave(); leave = null; }
-    i = n; const s = slides[i];
+    if (waiting || !slides.length || (n === i && e)) return;
+    const s = slides[n];
     if (s.clip !== undefined) Sound.play(s.clip);
-    if (e) { Sound.unlock(); Tilt.start(); } // inside the tap, so the phone lets sound start and shares its motion sensor
+    if (e) { // inside the tap, so the phone lets sound start and can be asked for its motion sensor
+      Sound.unlock();
+      const ask = Tilt.start();
+      if (ask) { waiting = true; return void ask.then(() => { waiting = false; go(n); }); } // hold the story until the phone's question is answered
+    }
+    if (leave) { leave(); leave = null; }
+    i = n;
     paint(s.pal); GL.kick(); setBackdrop(s.bd);
     ui.className = s.dur && !reduced ? "" : "noauto"; ui.style.setProperty("--dur", (s.dur || 0) + "s");
     // the outgoing slide stays put and dissolves while the new one arrives over it
@@ -687,28 +851,33 @@ async function showStories(load, demo) {
     if (old) { if (reduced) old.remove(); else { old.classList.add("out"); setTimeout(() => old.remove(), 460); } }
     const cur = h("b"), slide = h("section", { className: "slide " + (s.cls || "") }, s.body());
     ui.append(h("div", { className: "bars" }, slides.map((_, k) => h("i", { className: k < i ? "done" : k === i ? "cur" : "" }, k === i ? cur : h("b")))),
-      muteBtn(), slide, nav("prev", "Previous", -1), nav("next", "Next", 1));
-    cur.onanimationend = () => go(i + 1);
+      nowPill(), muteBtn(), slide, nav("prev", "Previous", -1), nav("next", "Next", 1));
+    drawNow();
+    cur.onanimationend = () => { autoAt = performance.now(); go(i + 1); };
     slide.querySelectorAll(".big").forEach(fit);
     if (s.enter) leave = s.enter(slide);
     const sb = slide.querySelector(".scrub b"); // thin line that follows the clip
     if (sb) { const iv = setInterval(() => { sb.style.transform = `scaleX(${Sound.progress()})`; }, 250), prev = leave; leave = () => { clearInterval(iv); if (prev) prev(); }; }
   }
   const start = async () => {
-    try { Sound.play(null); slides = build(await load(range)); go(0); }
+    try { Sound.play(null); const next = build(await load(range));
+      // pictures and the first clips are fetched before the story opens: nothing pops in late, and the Play tap can start sound at once
+      await Promise.all([preload(pre), Promise.race([Promise.all(looking), new Promise(r => setTimeout(r, 5000))])]);
+      slides = next; go(0); }
     catch (e) { showSetup(e.message); }
   };
   const onKey = e => { if (!slides.length) return; if (e.key === "ArrowRight") go(i + 1, e); if (e.key === "ArrowLeft") go(i - 1, e); };
   const onHide = () => stage.classList.toggle("held", document.hidden);
-  document.addEventListener("keydown", onKey); document.addEventListener("visibilitychange", onHide);
+  document.addEventListener("keydown", onKey); document.addEventListener("visibilitychange", onHide); stage.addEventListener("clip", drawNow);
   closeStories = () => { if (leave) leave(); slides = []; stage.classList.remove("held");
-    document.removeEventListener("keydown", onKey); document.removeEventListener("visibilitychange", onHide); };
+    document.removeEventListener("keydown", onKey); document.removeEventListener("visibilitychange", onHide); stage.removeEventListener("clip", drawNow); };
   start();
 }
 
 const loadReal = async range => {
-  const [me, artists, tracks] = await Promise.all([api("/me"), topItems("artists", range), topItems("tracks", range)]);
-  return { me, artists, tracks };
+  const [me, artists, tracks, recent] = await Promise.all([api("/me"), topItems("artists", range), topItems("tracks", range),
+    range === "short_term" ? [] : topItems("tracks", "short_term").catch(() => [])]); // for the "lately" screen; the story works without it
+  return { me, artists, tracks, recent };
 };
 
 (async function boot() {
@@ -716,8 +885,8 @@ const loadReal = async range => {
   try {
     if (q.has("code") || q.has("error")) await finishLogin(q);
   } catch (e) { return showSetup(e.message); }
-  if (q.has("demo")) return showStories(demoData, true);
-  token() ? showStories(loadReal, false) : showSetup();
+  if (q.has("demo")) return showStories(demoLive, true);
+  token() || LS.get("refresh") ? showStories(loadReal, false) : showSetup();
 })();
 </script>
 </body>
