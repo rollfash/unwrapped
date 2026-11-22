@@ -51,13 +51,13 @@
   .in { animation: in .9s var(--ease) both; animation-delay: var(--d, 0ms); }
   @keyframes in { from { opacity: 0; transform: translateY(14px); } }
 
-  /* headlines come into focus word by word */
+  /* headlines arrive word by word (no animated blur: it intermittently crashed WebKit in testing) */
   .big { font-weight: 700; font-size: clamp(2.7rem, 12.6vw, 3.9rem); line-height: 1.03; letter-spacing: -.038em; }
   .big.m { font-size: clamp(2.2rem, 10vw, 3rem); }
   .big.s { font-size: clamp(1.8rem, 8vw, 2.3rem); line-height: 1.08; }
   .big.brk .w { white-space: normal; overflow-wrap: anywhere; }
   .w { display: inline-block; white-space: nowrap; animation: word 1s var(--ease) both; animation-delay: calc(var(--i) * 90ms + var(--d, 150ms)); }
-  @keyframes word { from { opacity: 0; transform: translateY(.3em); filter: blur(12px); } }
+  @keyframes word { from { opacity: 0; transform: translateY(.45em) scale(.96); } }
   .kicker { font-size: .95rem; font-weight: 600; color: color-mix(in srgb, var(--tint, #fff) 26%, #fff); margin-bottom: 8px; }
   .sub { margin-top: 10px; font-size: 1.15rem; font-weight: 500; color: var(--t2); }
   .fine { margin-top: 14px; font-size: .8rem; line-height: 1.45; color: var(--t3); max-width: 46ch; }
@@ -96,7 +96,7 @@
   .slide.cover { justify-content: flex-end; }
   .slide > * { position: relative; z-index: 1; }
   .slide.out { pointer-events: none; animation: out .45s var(--ease) forwards; }
-  @keyframes out { to { opacity: 0; transform: scale(.96); filter: blur(10px); } }
+  @keyframes out { to { opacity: 0; transform: scale(.95); } }
 
   /* wall of album covers on the opening screen */
   .slide > .wall { position: absolute; z-index: 0; left: -38%; right: -38%; top: -5%; display: grid; gap: 12px; translate: calc(var(--tx, 0) * -18px) calc(var(--ty, 0) * -12px); transform-origin: 50% 0; transform: perspective(1000px) rotateX(24deg) rotateZ(-9deg);
@@ -122,7 +122,7 @@
   .art.round::before, .art.round::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .4); animation: ring 4.6s ease-out infinite; }
   .art.round::after { animation-delay: 2.3s; }
   @keyframes ring { from { opacity: .9; } to { opacity: 0; transform: scale(1.8); } }
-  @keyframes art { from { opacity: 0; transform: scale(.86); filter: blur(10px); } }
+  @keyframes art { from { opacity: 0; transform: scale(.84); } }
   @keyframes breathe { 50% { transform: translateY(-6px) scale(1.012); } }
 
   .now { display: flex; align-items: center; gap: 12px; width: 70%; margin-top: 24px; visibility: hidden; }
@@ -151,7 +151,7 @@
     background: linear-gradient(180deg, #fff, color-mix(in srgb, var(--tint, #fff) 60%, #fff)) center / cover; -webkit-background-clip: text; background-clip: text;
     animation: yr 2.4s var(--ease) both, pan 10s ease-in-out infinite alternate; }
   .yr.pic { background-size: 100% 100%, 190%; }
-  @keyframes yr { from { opacity: 0; transform: scale(1.7); filter: blur(26px); } }
+  @keyframes yr { from { opacity: 0; transform: scale(1.7); } }
   @keyframes pan { from { background-position: 25% 15%; } to { background-position: 75% 85%; } }
 
   /* big numbers */
